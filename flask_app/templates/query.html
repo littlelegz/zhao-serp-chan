@@ -1,0 +1,40 @@
+{% extends "header.html" %}
+{% block content %}
+{% if error_msg %}
+    <p>{{ error_msg }}</p>
+{% endif %}
+
+<div class="col-md-12">
+    <h1> Posts containing "{{ query }}" </h1>
+    {% for post in posts %}
+        <div class="post" style="background-color:rgb(200, 204, 167);padding:3px;">
+            <span class="float-right">
+                {% set post_id_str = post_id | string() %}
+                <small>{{ post.date }} 
+                {% if post.comment_on == None %}
+                    <a href="{{ url_for('movies.thread', input_id=post.post_id) }}">No. {{ post.post_id }}</a>
+                {% else %}
+                    No. {{ post.post_id }} ><a href="{{ url_for('movies.thread', input_id=post.comment_on) }}">{{ post.comment_on }}</a>
+                {% endif %}
+                </small>
+            </span>
+        {% if post.query != None %}
+            <img style="float: left" src="{{ post.query }}" width="60" height="60">
+        {% endif %}
+        {% if post.anon != 'Anon' %}
+            <a href="{{ url_for('movies.user_detail', username=post.commenter.username) }}">
+                <strong>@{{ post.commenter.username }}</strong>
+            </a>
+        {% endif %}
+        {% if post.anon == 'Anon' %}
+            <strong>@Anon</strong>
+        {% endif %}
+        <p>
+            {{ post.content }}
+        </p>
+        </div>
+    {% endfor %}
+</div>
+</div>
+
+{% endblock %}

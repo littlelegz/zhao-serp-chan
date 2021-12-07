@@ -1,0 +1,41 @@
+{% extends "header.html" %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <img class="propic" src="data:image/png;base64,{{image}}" alt="image">
+    </div>
+    <div class="col">
+        <h2>Your posts</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <h1> Posts <small class="float-right">{{ posts.count() }} posts</small></h1>
+        <ul class="media-list">
+            {% for post in posts %}
+            <div class="post" style="background-color:rgb(200, 204, 167);padding:3px;">
+                <span class="float-right">
+                    {% set post_id_str = post_id | string() %}
+                    <small>{{ post.date }} <a href="{{ url_for('movies.thread', input_id=post.post_id) }}">No. {{ post.post_id }}</a></small>
+                </span>
+            {% if post.query != None %}
+                <img style="float: left" src="{{ post.query }}" width="60" height="60">
+            {% endif %}
+            {% if post.anon != 'Anon' %}
+                <a href="{{ url_for('movies.user_detail', username=post.commenter.username) }}">
+                    <strong>@{{ post.commenter.username }}</strong>
+                </a>
+            {% endif %}
+            {% if post.anon == 'Anon' %}
+                <strong>@Anon</strong>
+            {% endif %}
+            <p>
+                {{ post.content }}
+            </p>
+            </div>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
