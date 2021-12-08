@@ -11,7 +11,6 @@ colorama==0.4.3
 configobj==5.0.6
 constantly==15.1.0
 cryptography==2.8
-dbus-python==1.2.16
 distlib==0.3.2
 distro==1.4.0
 dnspython==2.0.0
@@ -60,8 +59,6 @@ pyasn1-modules==0.2.1
 pycairo==1.16.2
 pycparser==2.20
 pycrypto==2.6.1
-pycups==1.9.73
-PyGObject==3.36.0
 PyHamcrest==1.9.0
 PyJWT==1.7.1
 pymacaroons==0.13.0
