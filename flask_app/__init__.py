@@ -19,6 +19,7 @@ import os
 # local
 from .client import PicClient
 
+SECRET_KEY = b'\x020;yr\x91\x11\xbe"\x9d\xc1\x14\x91\xadf\xec'
 
 db = MongoEngine()
 login_manager = LoginManager()
@@ -50,12 +51,12 @@ def create_app(test_config=None):
     #    content_security_policy=csp
     #)
 
-    app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
-
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
 
+    app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
+    app.config["SECRET_KEY"] = SECRET_KEY
     app.register_blueprint(users, url_prefix='/users')
     app.register_blueprint(movies, url_prefix='/')
     app.register_error_handler(404, page_not_found)
