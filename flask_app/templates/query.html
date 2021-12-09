@@ -12,9 +12,9 @@
                 {% set post_id_str = post_id | string() %}
                 <small>{{ post.date }} 
                 {% if post.comment_on == None %}
-                    <a href="{{ url_for('movies.thread', input_id=post.post_id) }}">No. {{ post.post_id }}</a>
+                    <a href="{{ url_for('board.thread', input_id=post.post_id) }}">No. {{ post.post_id }}</a>
                 {% else %}
-                    No. {{ post.post_id }} ><a href="{{ url_for('movies.thread', input_id=post.comment_on) }}">{{ post.comment_on }}</a>
+                    No. {{ post.post_id }} ><a href="{{ url_for('board.thread', input_id=post.comment_on) }}">{{ post.comment_on }}</a>
                 {% endif %}
                 </small>
             </span>
@@ -22,7 +22,7 @@
             <img style="float: left" src="{{ post.query }}" width="60" height="60">
         {% endif %}
         {% if post.anon != 'Anon' %}
-            <a href="{{ url_for('movies.user_detail', username=post.commenter.username) }}">
+            <a href="{{ url_for('board.user_detail', username=post.commenter.username) }}">
                 <strong>@{{ post.commenter.username }}</strong>
             </a>
         {% endif %}

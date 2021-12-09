@@ -28,7 +28,7 @@
             </span>
         {% endif %}
         {% if thread.anon != 'Anon' %}
-            <a href="{{ url_for('movies.user_detail', username=thread.commenter.username) }}">
+            <a href="{{ url_for('board.user_detail', username=thread.commenter.username) }}">
                 <strong>@{{ thread.commenter.username }}</strong>
             </a>
         {% endif %}
@@ -40,7 +40,7 @@
         </p>
         </div>
         {# remove this later #}
-        <a class="float-right" href="{{ url_for('movies.reply', input_id=thread.post_id) }}">
+        <a class="float-right" href="{{ url_for('board.reply', input_id=thread.post_id) }}">
             Reply
         </a>
     </div>
@@ -52,13 +52,13 @@
             <div class="post" style="background-color:rgb(200, 204, 167);padding:3px;">
                 <span class="float-right">
                     {% set post_id_str = post_id | string() %}
-                    <small>{{ post.date }} <a href="{{ url_for('movies.thread', input_id=post.post_id) }}">No. {{ post.post_id }}</a></small>
+                    <small>{{ post.date }} No. {{ post.post_id }}</small>
                 </span>
             {% if post.query != None %}
                 <img style="float: left" src="{{ post.query }}" width="60" height="60">
             {% endif %}
             {% if post.anon != 'Anon' %}
-                <a href="{{ url_for('movies.user_detail', username=post.commenter.username) }}">
+                <a href="{{ url_for('board.user_detail', username=post.commenter.username) }}">
                     <strong>@{{ post.commenter.username }}</strong>
                 </a>
             {% endif %}

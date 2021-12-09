@@ -23,9 +23,9 @@ from .config import *
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-pic_client = PicClient(config.SERP_API_KEY)
+pic_client = PicClient(SERP_API_KEY)
 
-from .movies.routes import movies
+from .board.routes import board
 from .users.routes import users
 
 
@@ -34,7 +34,7 @@ def page_not_found(e):
 
 app = Flask(__name__)
 app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
-app.config["SECRET_KEY"] = config.SECRET_KEY
+app.config["SECRET_KEY"] = SECRET_KEY
 
 db.init_app(app)
 login_manager.init_app(app)
@@ -42,7 +42,7 @@ bcrypt.init_app(app)
 
 
 app.register_blueprint(users, url_prefix='/users')
-app.register_blueprint(movies, url_prefix='/')
+app.register_blueprint(board, url_prefix='/')
 app.register_error_handler(404, page_not_found)
 
 login_manager.login_view = "users.login"

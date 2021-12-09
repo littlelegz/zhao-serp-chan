@@ -7,14 +7,14 @@ from ..forms import MovieReviewForm, SearchForm, PostForm, CommentForm
 from ..models import User, Review, Post
 from ..utils import current_time
 
-movies = Blueprint('movies', __name__)
+board = Blueprint('board', __name__)
 
-@movies.route("/", methods=["GET", "POST"])
+@board.route("/", methods=["GET", "POST"])
 def index():
     form = SearchForm()
 
     if form.validate_on_submit():
-        return redirect(url_for("movies.query_results", query=form.search_query.data))
+        return redirect(url_for("board.query_results", query=form.search_query.data))
 
     posts = Post.objects(comment_on=None).order_by('-post_id')
     if posts.count() > 20:
@@ -23,17 +23,17 @@ def index():
     return render_template("index.html", posts=posts, form=form)
 
 
-@movies.route("/search-results/<query>", methods=["GET"])
+@board.route("/search-results/<query>", methods=["GET"])
 def query_results(query):
     try:
         posts = Post.objects(content__contains=query).order_by('-post_id')
     except ValueError as e:
         flash(str(e))
-        return redirect(url_for("movies.index"))
+        return redirect(url_for("board.index"))
 
     return render_template("query.html", posts=posts, query=query)
 
-@movies.route("/reply/<input_id>", methods=["GET", "POST"])
+@board.route("/reply/<input_id>", methods=["GET", "POST"])
 def reply(input_id):
     form = CommentForm()
     if form.validate_on_submit():
@@ -66,13 +66,13 @@ def reply(input_id):
 
             post.save()
 
-        return redirect(url_for("movies.thread", input_id=input_id))
+        return redirect(url_for("board.thread", input_id=input_id))
 
     return render_template(
         "reply.html", form=form
     )
 
-@movies.route("/thread/<input_id>", methods=["GET", "POST"])
+@board.route("/thread/<input_id>", methods=["GET", "POST"])
 def thread(input_id):
     thread_post = Post.objects(post_id=input_id).first()
     comments = Post.objects(comment_on=input_id)
@@ -81,7 +81,7 @@ def thread(input_id):
         "thread.html", thread=thread_post, comments=comments
     )
 
-@movies.route("/post", methods=["GET", "POST"])
+@board.route("/post", methods=["GET", "POST"])
 def post():
     form = PostForm()
     if form.validate_on_submit():
@@ -131,13 +131,13 @@ def post():
 
             post.save()
 
-        return redirect(url_for("movies.index"))
+        return redirect(url_for("board.index"))
 
     return render_template(
         "post.html", form=form
     )
 
-@movies.route("/movies/<movie_id>", methods=["GET", "POST"])
+@board.route("/movies/<movie_id>", methods=["GET", "POST"])
 def movie_detail(movie_id):
     try:
         result = pic_client.retrieve_movie_by_id(movie_id)
@@ -165,7 +165,7 @@ def movie_detail(movie_id):
     )
 
 
-@movies.route("/user/<username>")
+@board.route("/user/<username>")
 def user_detail(username):
     user = User.objects(username=username).first()
     posts = Post.objects(commenter=user, comment_on=None)
@@ -173,7 +173,7 @@ def user_detail(username):
 
     return render_template("user_detail.html", username=username, posts=posts, comments=comments)
 
-@movies.route("/about")
+@board.route("/about")
 def about():
     return render_template("about.html")
 
