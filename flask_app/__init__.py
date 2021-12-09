@@ -33,7 +33,7 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 app = Flask(__name__)
-app.config["MONGODB_HOST"] = config.MONGODB_HOST
+app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
 app.config["SECRET_KEY"] = config.SECRET_KEY
 
 db.init_app(app)
