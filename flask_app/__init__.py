@@ -34,7 +34,21 @@ from .users.routes import users
 def page_not_found(e):
     return render_template("404.html"), 404
 
+app = Flask(__name__)
 
+db.init_app(app)
+login_manager.init_app(app)
+bcrypt.init_app(app)
+
+app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
+app.config["SECRET_KEY"] = SECRET_KEY
+app.register_blueprint(users, url_prefix='/users')
+app.register_blueprint(movies, url_prefix='/')
+app.register_error_handler(404, page_not_found)
+
+login_manager.login_view = "users.login"
+
+"""
 def create_app(test_config=None):
     app = Flask(__name__)
     csp = {
@@ -64,6 +78,5 @@ def create_app(test_config=None):
 
     login_manager.login_view = "users.login"
 
-    return app
-
-app = create_app()
+    return app 
+"""
