@@ -36,13 +36,14 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 app = Flask(__name__)
+app.config["MONGODB_HOST"] = MONGODB_HOST
+app.config["SECRET_KEY"] = SECRET_KEY
 
 db.init_app(app)
 login_manager.init_app(app)
 bcrypt.init_app(app)
 
-app.config["MONGODB_HOST"] = MONGODB_HOST
-app.config["SECRET_KEY"] = SECRET_KEY
+
 app.register_blueprint(users, url_prefix='/users')
 app.register_blueprint(movies, url_prefix='/')
 app.register_error_handler(404, page_not_found)
