@@ -65,3 +65,5 @@ def create_app(test_config=None):
     login_manager.login_view = "users.login"
 
     return app
+
+app = create_app()
