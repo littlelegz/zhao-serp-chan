@@ -21,6 +21,7 @@ from .client import PicClient
 
 SECRET_KEY = b'\x020;yr\x91\x11\xbe"\x9d\xc1\x14\x91\xadf\xec'
 SERP_API_KEY= '78191b018b0d92c5359b5f3e94ce3ee722ad51e395bb32b8dafa0b55ebf92066'
+MONGODB_HOST = "mongodb+srv://admin_user:ipg5Gnc1rcdiQUVO@cluster0.66sc1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
 db = MongoEngine()
 login_manager = LoginManager()
@@ -40,7 +41,7 @@ db.init_app(app)
 login_manager.init_app(app)
 bcrypt.init_app(app)
 
-app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
+app.config["MONGODB_HOST"] = MONGODB_HOST
 app.config["SECRET_KEY"] = SECRET_KEY
 app.register_blueprint(users, url_prefix='/users')
 app.register_blueprint(movies, url_prefix='/')
