@@ -18,15 +18,12 @@ import os
 
 # local
 from .client import PicClient
-
-SECRET_KEY = b'\x020;yr\x91\x11\xbe"\x9d\xc1\x14\x91\xadf\xec'
-SERP_API_KEY= '78191b018b0d92c5359b5f3e94ce3ee722ad51e395bb32b8dafa0b55ebf92066'
-MONGODB_HOST = "mongodb+srv://admin_user:ipg5Gnc1rcdiQUVO@cluster0.66sc1.mongodb.net/Cluster0?retryWrites=true&w=majority"
+from .config import *
 
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-pic_client = PicClient(SERP_API_KEY)
+pic_client = PicClient(config.SERP_API_KEY)
 
 from .movies.routes import movies
 from .users.routes import users
@@ -36,8 +33,8 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 app = Flask(__name__)
-app.config["MONGODB_HOST"] = MONGODB_HOST
-app.config["SECRET_KEY"] = SECRET_KEY
+app.config["MONGODB_HOST"] = config.MONGODB_HOST
+app.config["SECRET_KEY"] = config.SECRET_KEY
 
 db.init_app(app)
 login_manager.init_app(app)
@@ -50,10 +47,7 @@ app.register_error_handler(404, page_not_found)
 
 login_manager.login_view = "users.login"
 
-"""
-def create_app(test_config=None):
-    app = Flask(__name__)
-    csp = {
+csp = {
         'default-src': [
             '\'self\'',
             'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
@@ -61,24 +55,9 @@ def create_app(test_config=None):
             'https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js',
             'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js',
         ],
-        'img-src': '*'
+        'img-src': ['*.gstatic.com', 'serpapi.com']
     }
-    #Talisman(
-    #    app, 
-    #    content_security_policy=csp
-    #)
-
-    db.init_app(app)
-    login_manager.init_app(app)
-    bcrypt.init_app(app)
-
-    app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
-    app.config["SECRET_KEY"] = SECRET_KEY
-    app.register_blueprint(users, url_prefix='/users')
-    app.register_blueprint(movies, url_prefix='/')
-    app.register_error_handler(404, page_not_found)
-
-    login_manager.login_view = "users.login"
-
-    return app 
-"""
+Talisman(
+    app, 
+    content_security_policy=csp
+)

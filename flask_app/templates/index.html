@@ -46,7 +46,7 @@
     <div class="col-md-12">
         <h1> Feed </h1>
         {% for post in posts %}
-            <div class="post" style="background-color:rgb(200, 204, 167);padding:3px;">
+            <div class="post">
                 <span class="float-right">
                     {% set post_id_str = post_id | string() %}
                     <small>{{ post.date }} <a href="{{ url_for('movies.thread', input_id=post.post_id) }}">No. {{ post.post_id }}</a></small>

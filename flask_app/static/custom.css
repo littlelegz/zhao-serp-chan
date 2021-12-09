@@ -12,7 +12,8 @@ movie {
 }
 
 .post {
-    background-color: rgb(160, 59, 41);
+    background-color:rgb(200, 204, 167);
+    padding:3px;
     border-style: groove;
 }
 

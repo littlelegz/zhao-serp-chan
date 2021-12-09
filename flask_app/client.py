@@ -49,7 +49,9 @@ class PicClient(object):
         result = []
 
         for item_json in search_results_json:
-            result.append(GoogleImage(item_json))
+            insert = GoogleImage(item_json)
+            #print(insert.thumbnail)
+            result.append(insert)
 
         return result
 
